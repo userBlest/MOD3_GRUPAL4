@@ -116,4 +116,14 @@ let permanenciaOrgDias = (fechaIng, fechaActual) => {
 
 }
 
-permanenciaOrgDias(2022 - 04 - 27, 2023 - 04 - 27)
+permanenciaOrgDias('2022-04-27', '2023-04-27')
+
+let permanenciaOrgMeses = (fechaIng, fechaActual) => {
+    let fechaIngresada = new Date(fechaIng),
+        fechaHoy = new Date(fechaActual),
+        diferencia = fechaHoy.getTime() - fechaIngresada.getTime(),
+        meses = Math.floor(diferencia / (1000 * 60 * 60 * 24 * 30.41));
+    console.log('Fulanito lleva una permanencia de', meses, 'meses')
+}
+
+permanenciaOrgMeses('2022-04-27', '2023-04-27')
