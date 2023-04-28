@@ -127,3 +127,25 @@ let permanenciaOrgMeses = (fechaIng, fechaActual) => {
 }
 
 permanenciaOrgMeses('2022-04-27', '2023-04-27')
+
+let permanenciaOrg = (fechaIng, fechaActual) => {
+    let fechaIngresada = new Date(fechaIng),
+        fechaHoy = new Date(fechaActual),
+        yearSelect = fechaHoy.getFullYear() - fechaIngresada.getFullYear(),
+        monthSelect = fechaHoy.getMonth() - fechaIngresada.getMonth(),
+        daysSelect = fechaHoy.getDate() - fechaIngresada.getDate(),
+        resultado = console.log(`Fulanito lleva una permanencia de ${yearSelect} años, ${monthSelect} meses y ${daysSelect} días`);
+    return resultado
+}
+permanenciaOrg('2022-04-27', '2023-04-27')
+
+let permanenciaOrgFaltante = (fechaIng, fechaActual) => {
+    let fechaIngresada = new Date(fechaIng).getTime,
+        fechaHoy = new Date(fechaActual).getTime,
+        diasfaltantes = (fechaHoy - fechaIngresada / (1000 * 60 * 60 * 24)),
+        resultado = console.log(`Para completar el año faltan ${diasfaltantes}`);
+    return resultado
+}
+
+
+permanenciaOrgFaltante('2022-04-27', '2023-04-27')
