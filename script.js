@@ -1,22 +1,18 @@
 function dateNow() {
-    let date = new Date(),
-        year = date.getFullYear(),
-        month = date.getMonth(),
-        day = date.getDate(),
-        monthredefinido = month.toString,
-        query = document.querySelector('#fechaForm');
-
-    if (monthredefinido.length == 1) {
-        fecha = (`${year}-0${month + 1}-${day}`);
-    } else {
-        fecha = (`${year}-${month + 1}-${day}`)
-    }
-    query.setAttribute('max', `${fecha}`)
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const query = document.querySelector('#fechaForm');
+    const formattedMonth = month.toString().padStart(2, '0');
+    const fecha = `${year}-${formattedMonth}-${day}`;
+    query.setAttribute('max', fecha);
     return fecha;
-}
-dateNow()
+  }
 
-function obtenerDia() {
+  
+
+  function obtenerDia() {
     query = document.getElementById('fechaForm');
     query.addEventListener("change", function (event) {
         console.log("Este es el event target", event.target.value)
@@ -34,118 +30,138 @@ function obtenerDia() {
     })
 }
 
-obtenerDia()
+  obtenerDia();
+  
+  
+  function edad() {
+    const query = document.getElementById('fechaForm');
+    query.addEventListener('change', function(event) {
+      const fecha = new Date(event.target.value);
+      const hoy = new Date();
+      const diferencia = hoy.getTime() - fecha.getTime();
+      const anios = Math.floor(diferencia / (1000 * 60 * 60 * 24 * 365.25));
+      const meses = Math.floor((diferencia % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44));
+      const dias = Math.floor((diferencia % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24));
+      alert(`Su edad es: ${anios} años, ${meses} meses y ${dias} días`);
+    });
+  }
 
-let edad = () => {
-    query = document.getElementById('fechaForm');
-    query.addEventListener("change", function (event) {
-        let fecha = event.target.value,
-            date = new Date(),
-            year = date.getFullYear() - new Date(fecha).getFullYear(),
-            month = date.getMonth() - new Date(fecha).getMonth(),
-            day = date.getDate() - new Date(fecha).getDate() - 1;
-        return alert(`Su edad es: ${year} años, ${month} meses y ${day} días`)
-    })
-}
+  edad();
+  
+  function meses() {
+    const query = document.getElementById('fechaForm');
+    query.addEventListener('change', function(event) {
+      const fechaNacimiento = new Date(event.target.value);
+      const fechaHoy = new Date();
+      const diferencia = fechaHoy.getTime() - fechaNacimiento.getTime();
+      const diasTranscurridos = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+      alert(`Fulanito desde su nacimiento ha vivido ${diasTranscurridos} días`);
+    });
+  }
+  meses();
+  
+  function proxcum() {
+    const query = document.getElementById('fechaForm');
+    query.addEventListener('change', function(event) {
+      const fechaNacimiento = new Date(event.target.value);
+      const fechaHoy = new Date();
+      const mesesTranscurridos = (fechaHoy.getFullYear() - fechaNacimiento.getFullYear()) * 12 + (fechaHoy.getMonth() - fechaNacimiento.getMonth());
+      alert(`Han transcurrido ${mesesTranscurridos} meses desde tu nacimiento.`);
+    });
+  }
+proxcum();
 
-// edad()
+  
+  
+  function horaConsulta() {
+    const date = new Date();
+    const hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 === 0 ? '12' : (hours % 12).toString().padStart(2, '0');
+    console.log(`La hora de esta consulta fue a las: ${formattedHours}:${minutes}:${seconds} ${ampm}`);
+  }
+  
+  horaConsulta();
 
-let meses = () => {
-    query = document.getElementById('fechaForm');
-    query.addEventListener("change", function (event) {
-        let fecha = event.target.value,
-            date = new Date(),
-            year = date.getTime() - new Date(fecha).getTime(),
-            dayfin = Math.floor(year / (1000 * 3600 * 24) - 1)
-        return alert(`Fulanito desde su nacimiento ha vivido ${dayfin} días`)
-    })
-}
-
-// meses()
-
-let proxcum = () => {
-    query = document.getElementById('fechaForm');
-    query.addEventListener("change", function (event) {
-        let date = new Date();
-        let fecha = event.target.value;
-        let cum = new Date(fecha).getTime() + 1;
-        let faltante = Math.floor((date.getTime() - (cum)) / 1000);
-        let faltante2 = Math.floor((faltante / (60 * 60)) / 24);
-        // faltante = Math.floor(date.getTime(cum / (1000 * 60 * 60 * 24)));
-        console.log("Intento del faltante", faltante2)
-    })
-}
-
-proxcum()
-
-function cuentaRegresiva() {
-
-    var fecha = new Date();  //la fecha de hoy
-    let agno = fecha.getFullYear() + 1; //creamos una variable para el próximo año.
-    let nuevoAgno = new Date(agno, 0, 1);     // de la nueva fecha tomamos el mes 0 -> enero y el día 1.
-    let segundosFalta = Math.floor((nuevoAgno.getTime() - fecha.getTime()) / 1000);  //contabilizamos los milisegundo entre la fecha del año siguiente y el actual
-    let dias = Math.floor((segundosFalta / (60 * 60)) / 24);  //calculamos los días dividiendo los segundos por los minutos y segundos (60*60)
-    //dayElement.innerText = dias;
-
-    let restante = (`Quedan ${dias} días, con ${horas} horas , ${minutos} minutos y ${segundos} segundos`);
-
-    // console.log(nuevoAgno);  
-    return restante;
-
-
-}
-
-function horaConsulta() {
-    let date = new Date(),
-        ampmR = 'AM',
-        ampm = date.getHours();
-    if (ampm >= 12 && ampm <= 24) {
-        ampmR = 'PM'
-    }
-    console.log(`La hora de esta consulta fue a las: ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} ${ampmR}`)
-}
-
-horaConsulta()
-
-let permanenciaOrgDias = (fechaIng, fechaActual) => {
-    let fechaIngresada = new Date(fechaIng),
-        fechaHoy = new Date(fechaActual),
-        diferencia = fechaHoy.getTime() - fechaIngresada.getTime(),
-        dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-    console.log('Fulanito lleva una permanencia de', dias, 'días');
-
-}
+const permanenciaOrgDias = (fechaIngreso, fechaActual) => {
+    const ingreso = new Date(fechaIngreso);
+    const hoy = new Date(fechaActual);
+    const diferenciaMs = hoy - ingreso;
+    const dias = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
+    console.log(`Fulanito lleva una permanencia de ${dias} días`);
+  }
 
 permanenciaOrgDias('2022-04-27', '2023-04-27')
 
-let permanenciaOrgMeses = (fechaIng, fechaActual) => {
-    let fechaIngresada = new Date(fechaIng),
-        fechaHoy = new Date(fechaActual),
-        diferencia = fechaHoy.getTime() - fechaIngresada.getTime(),
-        meses = Math.floor(diferencia / (1000 * 60 * 60 * 24 * 30.41));
-    console.log('Fulanito lleva una permanencia de', meses, 'meses')
-}
 
-permanenciaOrgMeses('2022-04-27', '2023-04-27')
-
-let permanenciaOrg = (fechaIng, fechaActual) => {
-    let fechaIngresada = new Date(fechaIng),
-        fechaHoy = new Date(fechaActual),
-        yearSelect = fechaHoy.getFullYear() - fechaIngresada.getFullYear(),
-        monthSelect = fechaHoy.getMonth() - fechaIngresada.getMonth(),
-        daysSelect = fechaHoy.getDate() - fechaIngresada.getDate(),
-        resultado = console.log(`Fulanito lleva una permanencia de ${yearSelect} años, ${monthSelect} meses y ${daysSelect} días`);
-    return resultado
-}
-permanenciaOrg('2022-04-27', '2023-04-27')
-
-let permanenciaOrgFaltante = (fechaIng, fechaActual) => {
-    let fechaIngresada = new Date(fechaIng).getTime,
-        fechaHoy = new Date(fechaActual).getTime,
-        diasfaltantes = (fechaHoy - fechaIngresada / (1000 * 60 * 60 * 24)),
-        resultado = console.log(`Para completar el año faltan ${diasfaltantes}`);
-    return resultado
-}
-
-
-permanenciaOrgFaltante('2022-04-27', '2023-04-27')
+const permanenciaOrgMeses = (fechaIng, fechaActual) => {
+    const fechaIngresada = new Date(fechaIng);
+    const fechaHoy = new Date(fechaActual);
+    const diferencia = fechaHoy.getTime() - fechaIngresada.getTime();
+    const meses = Math.floor(diferencia / (1000 * 60 * 60 * 24 * 30.41));
+    console.log('Fulanito lleva una permanencia de', meses, 'meses');
+  };
+  
+  permanenciaOrgMeses('2022-04-27', '2023-04-27');
+  
+  const permanenciaOrg = (fechaIng, fechaActual) => {
+    const fechaIngresada = new Date(fechaIng);
+    const fechaHoy = new Date(fechaActual);
+    const yearSelect = fechaHoy.getFullYear() - fechaIngresada.getFullYear();
+    const monthSelect = fechaHoy.getMonth() - fechaIngresada.getMonth();
+    const daysSelect = fechaHoy.getDate() - fechaIngresada.getDate();
+    const resultado = console.log(`Fulanito lleva una permanencia de ${yearSelect} años, ${monthSelect} meses y ${daysSelect} días`);
+    return resultado;
+  };
+  
+  permanenciaOrg('2022-04-27', '2023-04-27');
+  
+  const permanenciaOrgFaltante = (fechaIng, fechaActual) => {
+    const fechaIngresada = new Date(fechaIng).getTime();
+    const fechaHoy = new Date(fechaActual).getTime();
+    const diasFaltantes = (fechaHoy - fechaIngresada) / (1000 * 60 * 60 * 24);
+    const resultado = console.log(`Para completar el año faltan ${diasFaltantes} días`);
+    return resultado;
+  };
+  
+  permanenciaOrgFaltante('2022-04-27', '2023-04-27');
+  
+  const calcularHoras = (fechaHoraIngreso, fechaHoraSalida) => {
+    const ingreso = new Date(fechaHoraIngreso);
+    const salida = new Date(fechaHoraSalida);
+  
+    let horasTrabajadas = (salida - ingreso) / 3600000; // 3600000 milisegundos = 1 hora
+  
+    if (horasTrabajadas < 0) {
+      horasTrabajadas += 24; // se suman 24 horas si la hora de salida es anterior a la hora de ingreso
+    }
+  
+    if (horasTrabajadas > 24) {
+      throw new Error('La hora de salida no puede ser mayor a 24 horas después de la hora de ingreso.');
+    }
+  
+    if (horasTrabajadas < 4) {
+      throw new Error('El tiempo trabajado debe ser de al menos 4 horas.');
+    }
+  
+    if (horasTrabajadas > 12) {
+      throw new Error('El tiempo trabajado no debe ser mayor a 12 horas.');
+    }
+  
+    return horasTrabajadas;
+  };
+  
+  document.getElementById('calcular-btn').addEventListener('click', () => {
+    const fechaHoraIngreso = document.getElementById('fecha-hora-ingreso').value;
+    const fechaHoraSalida = document.getElementById('fecha-hora-salida').value;
+  
+    try {
+      const horasTrabajadas = calcularHoras(fechaHoraIngreso, fechaHoraSalida);
+      document.getElementById('resultado').textContent = `Horas trabajadas: ${horasTrabajadas.toFixed(2)}`;
+    } catch (error) {
+      alert(error.message);
+    }
+  });
+  
